@@ -33,11 +33,13 @@ if ['util'].include?(node[:instance_role])
 
   # Update JAVA as the Java on the AMI can sometimes crash
   #
-  Chef::Log.info "Updating Sun JDK"
-  package "dev-java/sun-jdk" do
-    version "1.6.0.26"
-    action :upgrade
-  end
+  # We disabled this since we use Iced Tea JDK
+  #
+  #Chef::Log.info "Updating Sun JDK"
+  #package "dev-java/sun-jdk" do
+  #  version "1.6.0.26"
+  #  action :upgrade
+  #end
 
   directory "/usr/lib/elasticsearch-#{node[:elasticsearch_version]}" do
     owner "root"

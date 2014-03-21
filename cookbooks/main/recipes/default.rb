@@ -89,8 +89,8 @@ include_recipe "resque-scheduler"
 
 #uncomment to include the Elasticsearch recipe
 # Use non-util for staging. (DL)
-include_recipe "elasticsearch::non_util"
-#include_recipe "elasticsearch"
+#include_recipe "elasticsearch::non_util"
+include_recipe "elasticsearch"
 
 # To install specific plugins to Elasticsearch see below as an example
 #es_plugin "cloud-aws" do

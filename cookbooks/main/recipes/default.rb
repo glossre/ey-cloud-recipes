@@ -17,7 +17,7 @@
 # include_recipe "ban"
 
 # uncomment to use the sidekiq recipe. See cookbooks/sidekiq/readme.md for documentation.
-# include_recipe "sidekiq"
+include_recipe "sidekiq"
 
 #uncomment to turn on memcached
 # include_recipe "memcached"
@@ -54,13 +54,13 @@
 #include_recipe "mongodb"
 
 #uncomment to run the resque recipe
-include_recipe "resque"
+#include_recipe "resque"
 
 #uncomment to run redis.yml recipe
 include_recipe "redis-yml"
 
 #uncomment to run the resque-scheduler recipe
-include_recipe "resque-scheduler"
+#include_recipe "resque-scheduler"
 
 #uncomment to run the redis recipe
 include_recipe "redis"
@@ -88,8 +88,11 @@ include_recipe "redis"
 #include_recipe "mysql_administrative_tools"
 
 #uncomment to include the Elasticsearch recipe
-# Use non-util for staging. (DL)
+#
+# *** Use non-util for staging. (DL) ***
+#
 #include_recipe "elasticsearch::non_util"
+#
 include_recipe "elasticsearch"
 
 # To install specific plugins to Elasticsearch see below as an example

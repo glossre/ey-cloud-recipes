@@ -7,3 +7,5 @@
 <% @queues.to_a.each do |q| %>
   - [<%= q.join(', ') %>]
 <% end %>
+production:
+  :concurrency: <%= @concurrency * 2 %>

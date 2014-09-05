@@ -14,7 +14,7 @@ default[:sidekiq] = {
   :workers => 1,
   
   # Concurrency
-  :concurrency => 5,
+  :concurrency => 1,
   
   # Queues
   :queues => {

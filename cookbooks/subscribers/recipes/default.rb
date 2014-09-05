@@ -28,4 +28,5 @@ if util_or_app_server?(node[:subscribers][:utility_name])
       })
       notifies :run, resources(:execute => "restart-subscribers-for-#{app_name}")
     end
+  end 
 end

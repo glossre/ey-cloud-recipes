@@ -26,7 +26,7 @@ stop()
   exit $?
 }
 
-[[ $# -ne 4 ]] && usage
+[[ $# -ne 3 ]] && usage
 [[ ! -L $app_root ]] && { echo "${app_root} does not exist"; exit 1; }
 
 case "${action}" in

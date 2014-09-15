@@ -1,0 +1,36 @@
+#!/bin/sh
+
+app_name=$1 action=$2 rails_env=$3
+
+app_root="/data/${app_name}/current"
+
+export PATH="#{app_root}/ey_bundler_binstubs:$PATH"
+
+cd "#{app_root}"
+
+usage()
+{
+  echo "Usage: $0 <app_name> {start|stop} <rails_env>"
+  exit 1
+}
+
+start()
+{
+  rake subscribers:start RAILS_ENV="${rails_env}"
+  exit $?
+}
+
+stop()
+{
+  rake subscribers:stop RAILS_ENV="${rails_env}"
+  exit $?
+}
+
+[[ $# -ne 4 ]] && usage
+[[ ! -L $app_root ]] && { echo "${app_root} does not exist"; exit 1; }
+
+case "${action}" in
+  start) start;;
+  stop) stop;;
+  *) usage;;
+esac

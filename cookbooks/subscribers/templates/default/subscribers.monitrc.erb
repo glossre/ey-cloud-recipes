@@ -1,7 +1,7 @@
 # subscriber worker
 check process <%= @app_name %>_subscribers
   with pidfile /data/<%= @app_name %>/shared/pids/subscribers.pid
-  start program = "/bin/bash -c 'BUNDLE_GEMFILE=/data/<%= @app_name %>/current/Gemfile /usr/local/bin/bundle exec rake subscribers:start'" with timeout 90 seconds
-  stop program = "/bin/bash -c 'BUNDLE_GEMFILE=/data/<%= @app_name %>/current/Gemfile /usr/local/bin/bundle exec rake subscribers:stop'" with timeout 90 seconds
+  start program = "/engineyard/bin/subscribers <%= @app_name %> start <%= @rails_env %>" with timeout 90 seconds
+  stop program = "/engineyard/bin/subscribers <%= @app_name %> stop <%= @rails_env %>" with timeout 90 seconds
   if totalmem is greater than <%= @memory_limit %> MB for 3 cycles then restart 
   group <%= @app_name %>_subscribers

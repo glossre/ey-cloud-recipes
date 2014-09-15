@@ -9,6 +9,13 @@ if util_or_app_server?(node[:subscribers][:utility_name])
     message "Setting up subscriber workers"
   end
 
+  # bin script
+  template "/engineyard/bin/subscribers" do
+    mode 0755
+    source "subscribers.erb" 
+    backup false
+  end
+
   # loop through applications
   node[:applications].each do |app_name, _|
     # reload monit
@@ -24,6 +31,7 @@ if util_or_app_server?(node[:subscribers][:utility_name])
       backup false
       variables({ 
         :app_name => app_name, 
+        :rails_env => node[:environment][:framework_env],
         :memory_limit => 511 # MB
       })
       notifies :run, resources(:execute => "restart-subscribers-for-#{app_name}")

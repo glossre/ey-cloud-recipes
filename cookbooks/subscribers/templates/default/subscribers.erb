@@ -4,9 +4,9 @@ app_name=$1 action=$2 rails_env=$3
 
 app_root="/data/${app_name}/current"
 
-export PATH="#{app_root}/ey_bundler_binstubs:$PATH"
+export PATH="${app_root}/ey_bundler_binstubs:$PATH"
 
-cd "#{app_root}"
+cd "${app_root}"
 
 usage()
 {

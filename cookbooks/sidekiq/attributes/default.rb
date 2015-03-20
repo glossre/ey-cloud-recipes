@@ -18,8 +18,13 @@ default[:sidekiq] = {
   
   # Queues
   :queues => {
-    # :queue_name => priority
-    :default => 1
+    # :queue_name => weight
+    :image      => 1,
+    :agent      => 1,
+    :snoop      => 1,
+    :default    => 1,
+    :mailers    => 1,
+    :analytics  => 1
   },
   
   # Verbose

@@ -26,20 +26,39 @@ if ['util'].include?(node[:instance_role])
     not_if { File.exists?("/tmp/elasticsearch-#{node[:elasticsearch_version]}.zip") }
   end
 
+  #Chef::Log.info "Downloading Java checksum #{node[:jre_checksum]}"
+  #remote_file "/tmp/es-#{node[:elasticsearch_version]}-jre.tar.gz" do
+  #  source node[:jre_source]
+  #  mode "0644"
+  #  checksum node[:jre_checksum]
+  #  not_if { File.exists?("/tmp/es-#{node[:elasticsearch_version]}-jre.tar.gz") }
+  #end
+
   user "elasticsearch" do
     uid 61021
     gid "nogroup"
   end
 
-  # Update JAVA as the Java on the AMI can sometimes crash
-  #
-  # We disabled this since we use Iced Tea JDK
-  #
-  #Chef::Log.info "Updating Sun JDK"
-  #package "dev-java/sun-jdk" do
-  #  version "1.6.0.26"
-  #  action :upgrade
-  #end
+  # Updating JAVA is required
+  Chef::Log.info "Updating JDK"
+
+  directory "/etc/portage/package.accept_keywords" do
+    owner "root"
+    group "root"
+    mode 0755
+  end
+
+  bash "unmask icedtea-bin" do
+    user "root"
+    cwd "/etc/portage/package.accept_keywords"
+    code %(echo '=dev-java/icedtea-bin-#{node[:icedtea_version]} ~amd64' >> icedtea-bin && java-config -Sicedtea-bin-#{node[:icedtea_version_major]})
+    not_if { File.exists? "/etc/portage/package.accept_keywords/icedtea-bin" }
+  end
+
+  package "dev-java/icedtea-bin" do
+    version node[:icedtea_version]
+    action :upgrade
+  end
 
   directory "/usr/lib/elasticsearch-#{node[:elasticsearch_version]}" do
     owner "root"

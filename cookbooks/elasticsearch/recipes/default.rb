@@ -26,14 +26,6 @@ if ['util'].include?(node[:instance_role])
     not_if { File.exists?("/tmp/elasticsearch-#{node[:elasticsearch_version]}.zip") }
   end
 
-  #Chef::Log.info "Downloading Java checksum #{node[:jre_checksum]}"
-  #remote_file "/tmp/es-#{node[:elasticsearch_version]}-jre.tar.gz" do
-  #  source node[:jre_source]
-  #  mode "0644"
-  #  checksum node[:jre_checksum]
-  #  not_if { File.exists?("/tmp/es-#{node[:elasticsearch_version]}-jre.tar.gz") }
-  #end
-
   user "elasticsearch" do
     uid 61021
     gid "nogroup"
@@ -51,13 +43,17 @@ if ['util'].include?(node[:instance_role])
   bash "unmask icedtea-bin" do
     user "root"
     cwd "/etc/portage/package.accept_keywords"
-    code %(echo '=dev-java/icedtea-bin-#{node[:icedtea_version]} ~amd64' >> icedtea-bin && java-config -Sicedtea-bin-#{node[:icedtea_version_major]})
+    code %(echo '=dev-java/icedtea-bin-#{node[:icedtea_version]} ~amd64' >> icedtea-bin)
     not_if { File.exists? "/etc/portage/package.accept_keywords/icedtea-bin" }
   end
 
   package "dev-java/icedtea-bin" do
     version node[:icedtea_version]
     action :upgrade
+  end
+
+  bash "use icedtea-bin-#{node[:icedtea_version_major]} jvm" do
+    code %(java-config -Sicedtea-bin-#{node[:icedtea_version_major]})
   end
 
   directory "/usr/lib/elasticsearch-#{node[:elasticsearch_version]}" do

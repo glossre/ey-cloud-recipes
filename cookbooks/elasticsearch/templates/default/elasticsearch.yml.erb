@@ -2,7 +2,6 @@ path:
   work: /var/lib/elasticsearch/work
   logs: /var/log/elasticsearch
   data: /data/elasticsearch
-  
 
 cluster:
   name: <%= @elasticsearch_clustername %>
@@ -18,3 +17,8 @@ gateway:
   recover_after_nodes: 1
   recover_after_time: 5m
   expected_nodes: <%= @elasticsearch_expected %>
+
+script:
+  groovy:
+    sandbox:
+      enabled: true
